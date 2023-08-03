@@ -2,7 +2,7 @@
 #
 # Instrumentalization
 #
-export var_manual_sudopsw="DebyLou2KF"
+export var_manual_sudopsw=$(cat ~/.psw)
 
 export dconfdir=/org/gnome/terminal/legacy/profiles:
 
