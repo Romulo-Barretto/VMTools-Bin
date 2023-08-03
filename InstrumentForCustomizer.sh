@@ -6,11 +6,13 @@
 #
 # Getting user password fron plain text inside home directory
 #
-export var_manual_sudopsw=$(cat ~/.psw)
+var_manual_sudopsw=$(cat ~/.psw)
+export var_manual_sudopsw
 #
 # Some vaiables to use
 #
-export dconfdir=/org/gnome/terminal/legacy/profiles:
+dconfdir=/org/gnome/terminal/legacy/profiles:
+export dconfdir
 
 function create_new_profile() {
     local profile_ids
@@ -32,7 +34,7 @@ function create_new_profile() {
 function get_profile_uuid() {
     # Print the UUID linked to the profile name sent in parameter
     local profile_ids
-    profile_ids=($(dconf list $dconfdir/ | grep ^: | sed 's/\///g' | sed 's/://g'))
+    profile_ids=$(dconf list $dconfdir/ | grep ^: | sed 's/\///g' | sed 's/://g')
     local profile_name
     profile_name="$1"
     for i in ${!profile_ids[*]}; do
@@ -54,7 +56,7 @@ fi
 
 function is_app_installed () {
   local was_found
-  was_found=$(apt list --installed $1 2>&1 | grep $1 | wc -l)
+  was_found=$(apt list --installed "$1" 2>&1 | grep "$1" | wc -l)
   if [[ $was_found -gt 0 ]]; then
     return 0
   else
@@ -64,7 +66,7 @@ function is_app_installed () {
 
 function is_flatpak_installed () {
   local was_found
-  was_found=$(flatpak list | grep $1 | wc -l)
+  was_found=$(flatpak list | grep "$1" | wc -l)
   if [[ $was_found -gt 0 ]]; then
     return 0
   else
@@ -95,8 +97,8 @@ function clean_my_system () {
 
 function all_keys_from_all_children_from_all_schemas () {
   for current_schema in $(gsettings list-schemas); do
-    for current_children in $(gsettings list-children $current_schema); do
-      for current_key in $(gsettings list-keys $current_children 2>/dev/null); do
+    for current_children in $(gsettings list-children "$current_schema"); do
+      for current_key in $(gsettings list-keys "$current_children" 2>/dev/null); do
         if [ $? -eq 0 ]; then
           echo "$current_schema"' ---> '"$current_children"' key: '"$current_key"' Descript: '"$(gsettings describe "$current_children" "$current_key" 2>/dev/null)"
         else
