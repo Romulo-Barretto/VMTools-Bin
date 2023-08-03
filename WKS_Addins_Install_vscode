@@ -1,0 +1,4 @@
+#!/bin/bash
+# this bash script install VSCODE when is not installed
+# no problem to call twice times or more
+#
