@@ -31,8 +31,10 @@ function create_new_profile() {
 
 function get_profile_uuid() {
     # Print the UUID linked to the profile name sent in parameter
-    local profile_ids=($(dconf list $dconfdir/ | grep ^: | sed 's/\///g' | sed 's/://g'))
-    local profile_name="$1"
+    local profile_ids
+    profile_ids=($(dconf list $dconfdir/ | grep ^: | sed 's/\///g' | sed 's/://g'))
+    local profile_name
+    profile_name="$1"
     for i in ${!profile_ids[*]}; do
         if [[ "$(dconf read $dconfdir/:${profile_ids[i]}/visible-name)" == \
             "'$profile_name'" ]]; then
@@ -51,7 +53,8 @@ fi
 }
 
 function is_app_installed () {
-  local was_found=$(apt list --installed $1 2>&1 | grep $1 | wc -l)
+  local was_found
+  was_found=$(apt list --installed $1 2>&1 | grep $1 | wc -l)
   if [[ $was_found -gt 0 ]]; then
     return 0
   else
@@ -60,7 +63,8 @@ function is_app_installed () {
 }
 
 function is_flatpak_installed () {
-  local was_found=$(flatpak list | grep $1 | wc -l)
+  local was_found
+  was_found=$(flatpak list | grep $1 | wc -l)
   if [[ $was_found -gt 0 ]]; then
     return 0
   else
@@ -69,7 +73,8 @@ function is_flatpak_installed () {
 }
 
 function is_snap_installed () {
-  local was_found=$(snap list | grep $1 | wc -l)
+  local was_found
+  was_found=$(snap list | grep $1 | wc -l)
   if [[ $was_found -gt 0 ]]; then
     return 0
   else
